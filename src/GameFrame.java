@@ -7,6 +7,7 @@ public class GameFrame extends JFrame implements KeyListener{
     GamePanel panel;
 
     public GameFrame() {
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
         this.setSize(520,520);
@@ -36,13 +37,14 @@ public class GameFrame extends JFrame implements KeyListener{
             panel.moveUp(0);
 
         if(e.getKeyCode()==39)
-            panel.moveRight(3);
+            panel.moveRight(0);
 
         if(e.getKeyCode()==40)
-            panel.moveDown(3);
+            panel.moveDown(0);
 
-        if(e.getKeyCode()==37 || e.getKeyCode()==38 || e.getKeyCode()==39 || e.getKeyCode()==40)
+        if(e.getKeyCode()==37 || e.getKeyCode()==38 || e.getKeyCode()==39 || e.getKeyCode()==40) {
             panel.spawnNumber();
+        }
     }
 
     @Override

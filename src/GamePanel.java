@@ -25,10 +25,6 @@ public class GamePanel extends JPanel {
                 this.add(tiles[i][j]);
             }
 
-        startgame();
-    }
-
-    public void startgame() {
         for(int i=0; i<2; i++)
             spawnNumber();
     }
@@ -38,29 +34,55 @@ public class GamePanel extends JPanel {
     }
 
     public void moveUp(int column) {
-        for(int i=0; i<3; i++) {
-            takeAction(tiles[i][column], tiles[i+1][column]);
 
-            //if(tiles[i+1][column].empty)
-
-        }
-
+        for(int i=0; i<4; i++)
+            for(int j=i+1; j<4; j++)
+                if (!tiles[j][column].isEmpty()) {
+                    takeAction(tiles[i][column], tiles[j][column]);
+                    break;
+                }
 
         if(column<3)
             moveUp(++column);
-
     }
 
     public void moveDown(int column) {
 
+        for(int i=3; i>=0; i--)
+            for(int j=i-1; j>=0; j--)
+                if (!tiles[j][column].isEmpty()) {
+                    takeAction(tiles[i][column], tiles[j][column]);
+                    break;
+                }
+
+        if(column<3)
+            moveDown(++column);
     }
 
     public void moveLeft(int row) {
-        System.out.println("Left");
+
+        for(int i=0; i<4; i++)
+            for(int j=i+1; j<4; j++)
+                if (!tiles[row][j].isEmpty()) {
+                    takeAction(tiles[row][i], tiles[row][j]);
+                    break;
+                }
+
+        if(row<3)
+            moveLeft(++row);
     }
 
     public void moveRight(int row) {
 
+        for(int i=3; i>=0; i--)
+            for(int j=i-1; j>=0; j--)
+                if (!tiles[row][j].isEmpty()) {
+                    takeAction(tiles[row][i], tiles[row][j]);
+                    break;
+                }
+
+        if(row<3)
+            moveRight(++row);
     }
 
     //10% Chance of 4 getting spawned
