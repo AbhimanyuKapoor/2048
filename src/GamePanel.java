@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class GamePanel extends JPanel {
 
+    Boolean modified;
     Tile[][] tiles;
     Random random;
 
@@ -18,6 +19,7 @@ public class GamePanel extends JPanel {
 
         tiles=new Tile[4][4];
         random=new Random();
+        modified=false;
 
         for(int i=0; i<4; i++)
             for(int j=0; j<4; j++) {
@@ -38,7 +40,13 @@ public class GamePanel extends JPanel {
         for(int i=0; i<4; i++)
             for(int j=i+1; j<4; j++)
                 if (!tiles[j][column].isEmpty()) {
-                    takeAction(tiles[i][column], tiles[j][column]);
+
+                    if(tiles[i][column].isEmpty()) {
+                        takeAction(tiles[i][column], tiles[j][column]);
+                        i--;
+                    }
+                    else
+                        takeAction(tiles[i][column], tiles[j][column]);
                     break;
                 }
 
@@ -51,7 +59,13 @@ public class GamePanel extends JPanel {
         for(int i=3; i>=0; i--)
             for(int j=i-1; j>=0; j--)
                 if (!tiles[j][column].isEmpty()) {
-                    takeAction(tiles[i][column], tiles[j][column]);
+
+                    if(tiles[i][column].isEmpty()){
+                        takeAction(tiles[i][column], tiles[j][column]);
+                        i++;
+                    }
+                    else
+                        takeAction(tiles[i][column], tiles[j][column]);
                     break;
                 }
 
@@ -64,7 +78,13 @@ public class GamePanel extends JPanel {
         for(int i=0; i<4; i++)
             for(int j=i+1; j<4; j++)
                 if (!tiles[row][j].isEmpty()) {
-                    takeAction(tiles[row][i], tiles[row][j]);
+
+                    if(tiles[row][i].isEmpty()){
+                        takeAction(tiles[row][i], tiles[row][j]);
+                        i--;
+                    }
+                    else
+                        takeAction(tiles[row][i], tiles[row][j]);
                     break;
                 }
 
@@ -77,7 +97,13 @@ public class GamePanel extends JPanel {
         for(int i=3; i>=0; i--)
             for(int j=i-1; j>=0; j--)
                 if (!tiles[row][j].isEmpty()) {
-                    takeAction(tiles[row][i], tiles[row][j]);
+
+                    if(tiles[row][i].isEmpty()){
+                        takeAction(tiles[row][i], tiles[row][j]);
+                        i++;
+                    }
+                    else
+                        takeAction(tiles[row][i], tiles[row][j]);
                     break;
                 }
 
@@ -109,12 +135,15 @@ public class GamePanel extends JPanel {
         if(tile1.getValue()==tile2.getValue()) {
             tile1.setValue(tile1.getValue()*2);
             tile2.setValue(0);
+
+            modified=true;
         }
 
         if(tile1.isEmpty()) {
             tile1.setValue(tile2.getValue());
             tile2.setValue(0);
-        }
 
+            modified=true;
+        }
     }
 }
