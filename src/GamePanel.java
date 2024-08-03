@@ -5,6 +5,7 @@ import java.util.Random;
 
 public class GamePanel extends JPanel {
 
+    int score=0;
     Boolean modified;
     Tile[][] tiles;
     Random random;
@@ -26,7 +27,10 @@ public class GamePanel extends JPanel {
                 tiles[i][j]=new Tile();
                 this.add(tiles[i][j]);
             }
+        start();
+    }
 
+    public void start() {
         for(int i=0; i<2; i++)
             spawnNumber();
     }
@@ -113,7 +117,6 @@ public class GamePanel extends JPanel {
 
     //10% Chance of 4 getting spawned
     public void spawnNumber() {
-
         int row, column;
 
         for(;true;) {
@@ -137,6 +140,9 @@ public class GamePanel extends JPanel {
             tile2.setValue(0);
 
             modified=true;
+
+            score+=tile1.getValue();
+            GameFrame.score.setText("Score: "+score);
         }
 
         if(tile1.isEmpty()) {
@@ -145,5 +151,25 @@ public class GamePanel extends JPanel {
 
             modified=true;
         }
+    }
+
+    public void reset() {
+
+        Component[] componentList = this.getComponents();
+        for(Component c: componentList)
+            this.remove(c);
+
+        this.repaint();
+        this.revalidate();
+
+        for(int i=0; i<4; i++)
+            for(int j=0; j<4; j++) {
+                tiles[i][j]=new Tile();
+                this.add(tiles[i][j]);
+            }
+        score=0;
+        GameFrame.score.setText("Score: "+score);
+
+        start();
     }
 }

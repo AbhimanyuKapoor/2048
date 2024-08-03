@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
 import java.awt.*;
 
 public class Tile extends JLabel {
@@ -29,6 +28,7 @@ public class Tile extends JLabel {
 
     //If value is being set to 0: Make it empty
     public void setValue(int a) {
+
         if(a==0) {
             this.setText("");
             empty=true;
@@ -44,6 +44,7 @@ public class Tile extends JLabel {
             this.setForeground(new Color(255, 255, 255));
 
         setTileColor(a);
+        adjustFont(a);
     }
 
     public void setColor(int r, int g, int b) {
@@ -94,5 +95,21 @@ public class Tile extends JLabel {
                 setColor(235, 193, 45);
                 break;
         }
+    }
+
+    public void adjustFont(int num) {
+
+        if(num>=1048576)
+            this.setFont(new Font("Monospaced", Font.BOLD, 25));
+        else if(num>=131072)
+            this.setFont(new Font("Monospaced", Font.BOLD, 29));
+        else if(num>=16384)
+            this.setFont(new Font("Monospaced", Font.BOLD, 36));
+        else if(num>=1024)
+            this.setFont(new Font("Monospaced", Font.BOLD, 45));
+        else if(num>=128)
+            this.setFont(new Font("Monospaced", Font.BOLD, 50));
+        else
+            this.setFont(new Font("Monospaced", Font.BOLD, 55));
     }
 }

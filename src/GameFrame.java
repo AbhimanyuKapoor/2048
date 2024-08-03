@@ -1,27 +1,56 @@
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.*;
+import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GameFrame extends JFrame implements KeyListener{
+public class GameFrame extends JFrame implements KeyListener, ActionListener {
 
+    //Static so that GamePanel can access this JLabel
+    static JLabel score;
+
+    JButton newGame;
     GamePanel panel;
 
     public GameFrame() {
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(true);
-        this.setSize(520,520);
+        this.setSize(520,600);
+        this.setResizable(false);
         this.setTitle("2048");
+        this.setLayout(new BorderLayout());
+
+        score= new JLabel();
+        score.setVisible(true);
+        score.setOpaque(true);
+        score.setText("Score: 0");
+        score.setHorizontalAlignment(0);
+        score.setBackground(new Color(187, 173, 160));
+        score.setForeground(new Color(238, 228, 218));
+        score.setFont(new Font("Monospaced", Font.BOLD, 35));
+        score.setBorder(new LineBorder(new Color(238, 228, 218), 5));
+
+        newGame= new JButton();
+        newGame.setVisible(true);
+        newGame.setText("New Game");
+        newGame.setForeground(new Color(238, 228, 218));
+        newGame.setBackground(new Color(143, 122, 102));
+        newGame.setFont(new Font("Monospaced", Font.BOLD, 30));
+        newGame.addActionListener(this);
+        newGame.setFocusable(false);
+        newGame.setBorder(new LineBorder(new Color(238, 228, 218), 5));
 
         panel= new GamePanel();
 
-        this.add(panel);
+        this.add(panel, BorderLayout.CENTER);
+        this.add(score, BorderLayout.NORTH);
+        this.add(newGame, BorderLayout.SOUTH);
+
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setLocationRelativeTo(null);
-
     }
 
     @Override
@@ -33,19 +62,17 @@ public class GameFrame extends JFrame implements KeyListener{
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if(!panel.modified) {
-            if(e.getKeyCode()==37)
-                panel.moveLeft(0);
+        if(e.getKeyCode()==37)
+            panel.moveLeft(0);
 
-            if(e.getKeyCode()==38)
-                panel.moveUp(0);
+        if(e.getKeyCode()==38)
+            panel.moveUp(0);
 
-            if(e.getKeyCode()==39)
-                panel.moveRight(0);
+        if(e.getKeyCode()==39)
+            panel.moveRight(0);
 
-            if(e.getKeyCode()==40)
-                panel.moveDown(0);
-        }
+        if(e.getKeyCode()==40)
+            panel.moveDown(0);
 
         if(e.getKeyCode()==37 || e.getKeyCode()==38 || e.getKeyCode()==39 || e.getKeyCode()==40) {
 
@@ -63,9 +90,9 @@ public class GameFrame extends JFrame implements KeyListener{
                         panel.spawnNumber();
                         panel.modified=false;
                     }
-                }, 300);
-
+                }, 150);
             }
+
         }
     }
 
@@ -73,5 +100,11 @@ public class GameFrame extends JFrame implements KeyListener{
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==newGame)
+            panel.reset();
     }
 }
