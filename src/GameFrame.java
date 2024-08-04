@@ -9,7 +9,6 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
 
     //Static so that GamePanel can access this JLabel
     static JLabel score;
-
     JButton newGame;
     GamePanel panel;
 
@@ -56,41 +55,43 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if(e.getKeyCode()==37)
-            panel.moveLeft(0);
+        if(!panel.gameOver) {
 
-        if(e.getKeyCode()==38)
-            panel.moveUp(0);
+            if(e.getKeyCode()==37)
+                panel.moveLeft(0);
 
-        if(e.getKeyCode()==39)
-            panel.moveRight(0);
+            if(e.getKeyCode()==38)
+                panel.moveUp(0);
 
-        if(e.getKeyCode()==40)
-            panel.moveDown(0);
+            if(e.getKeyCode()==39)
+                panel.moveRight(0);
 
-        if(e.getKeyCode()==37 || e.getKeyCode()==38 || e.getKeyCode()==39 || e.getKeyCode()==40) {
+            if(e.getKeyCode()==40)
+                panel.moveDown(0);
+
+            if(e.getKeyCode()==37 || e.getKeyCode()==38 || e.getKeyCode()==39 || e.getKeyCode()==40) {
 
             /*Thread.sleep blocks the running of the current rule for a certain number of milliseconds
             and then continues executing the rest of the logic in the rule. A Timer spins up a separate thread
             which starts executing in the background after the Timer goes off. Which is why I preferred Timer here. */
 
-            if (panel.modified) {
+                if (panel.modified) {
 
-                Timer timer=new Timer();
+                    Timer timer=new Timer();
 
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        panel.spawnNumber();
-                        panel.modified=false;
-                    }
-                }, 150);
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            panel.spawnNumber();
+                            panel.modified=false;
+                        }
+                    }, 150);
+                }
             }
 
         }
@@ -99,7 +100,6 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-
     }
 
     @Override

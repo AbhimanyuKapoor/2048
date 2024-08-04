@@ -6,7 +6,8 @@ import java.util.Random;
 public class GamePanel extends JPanel {
 
     int score=0;
-    Boolean modified;
+    boolean modified;
+    boolean gameOver;
     Tile[][] tiles;
     Random random;
 
@@ -21,6 +22,7 @@ public class GamePanel extends JPanel {
         tiles=new Tile[4][4];
         random=new Random();
         modified=false;
+        gameOver=false;
 
         for(int i=0; i<4; i++)
             for(int j=0; j<4; j++) {
@@ -131,6 +133,8 @@ public class GamePanel extends JPanel {
             tiles[row][column].setValue(4);
         else
             tiles[row][column].setValue(2);
+
+        checkOver();
     }
 
     public void takeAction(Tile tile1, Tile tile2) {
@@ -168,8 +172,49 @@ public class GamePanel extends JPanel {
                 this.add(tiles[i][j]);
             }
         score=0;
+        gameOver=false;
         GameFrame.score.setText("Score: "+score);
 
         start();
+    }
+
+    public void checkOver() {
+
+        boolean filled = true;
+
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
+                if (tiles[i][j].isEmpty())
+                    filled = false;
+
+        if (filled) {
+
+            boolean over=true;
+
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 4; j++) {
+
+                    if(i-1>=0)
+                        if(tiles[i][j].getValue()==tiles[i-1][j].getValue())
+                            over=false;
+                    if(j-1>=0)
+                        if(tiles[i][j].getValue()==tiles[i][j-1].getValue())
+                            over=false;
+                    if(i+1<=3)
+                        if(tiles[i][j].getValue()==tiles[i+1][j].getValue())
+                            over=false;
+                    if(j+1<=3)
+                        if(tiles[i][j].getValue()==tiles[i][j+1].getValue())
+                            over=false;
+                }
+            }
+
+            if(over) {
+                gameOver=true;
+                GameFrame.score.setText("Game Over!");
+            }
+
+        }
+
     }
 }
