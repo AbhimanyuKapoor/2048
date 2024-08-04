@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,6 +12,7 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
     static JLabel score;
     JButton newGame;
     GamePanel panel;
+    ImageIcon icon;
 
     public GameFrame() {
 
@@ -42,7 +44,6 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
         newGame.setBorder(new LineBorder(new Color(238, 228, 218), 5));
 
         panel= new GamePanel();
-
         this.add(panel, BorderLayout.CENTER);
         this.add(score, BorderLayout.NORTH);
         this.add(newGame, BorderLayout.SOUTH);
@@ -50,6 +51,11 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setLocationRelativeTo(null);
+
+        if(new File("2048.png").exists()) {
+            icon=new ImageIcon("2048.png");
+            this.setIconImage(icon.getImage());
+        }
     }
 
     @Override
@@ -93,7 +99,6 @@ public class GameFrame extends JFrame implements KeyListener, ActionListener {
                     }, 150);
                 }
             }
-
         }
     }
 
